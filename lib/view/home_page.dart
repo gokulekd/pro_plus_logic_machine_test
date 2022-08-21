@@ -226,37 +226,3 @@ class _ScreeenHomePageState extends State<ScreeenHomePage> {
     );
   }
 }
-
-class ScrollingCatogoryButtons extends StatelessWidget {
-  const ScrollingCatogoryButtons({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int initial = 1;
-    return SizedBox(
-      height: 50,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 25, top: 8, bottom: 8),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: initial == 1 ? selectCategoryButtonColor : grey),
-                onPressed: () {},
-                child: Text(
-                  "Living Room",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: initial == 1 ? white : black,
-                  ),
-                ),
-              ),
-            );
-          }),
-    );
-  }
-}
