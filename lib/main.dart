@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pro_plus_logic_machine_test/view/screen_splash.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -11,8 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, child) => ResponsiveWrapper.builder(
         child,
@@ -25,8 +28,7 @@ class MyApp extends StatelessWidget {
           const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
         ],
       ),
-      
-      home: const ScreenSplash(),
+      home:  ScreenSplash(),
     );
   }
 }

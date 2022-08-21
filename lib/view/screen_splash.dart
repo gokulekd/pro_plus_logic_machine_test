@@ -7,6 +7,7 @@ class ScreenSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     navigation(context);
     return Scaffold(
       body: Center(
@@ -24,7 +25,7 @@ void navigation(context)async {
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(
-      builder: (context) => const ScreenSignUp(),
+      builder: (context) =>  ScreenSignUp(),
     ),
   );
 }
