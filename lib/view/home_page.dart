@@ -20,6 +20,7 @@ final controller = Get.find<ApiController>().validateuser();
 class _ScreeenHomePageState extends State<ScreeenHomePage> {
   final controller = Get.find<ApiController>();
   int cartBadgeCount = 3;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -29,10 +30,45 @@ class _ScreeenHomePageState extends State<ScreeenHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            sizeH50,
+               sizeH50,
             appbarHomepage(),
+          sizeH20,
+            Padding(
+              padding: const EdgeInsets.only(top: 10,left: 15),
+              child: GetBuilder<ApiController>(
+                init: ApiController(),
+                builder: (
+                  controller,
+                ) {
+                  return SizedBox(
+                    height: height * 0.04,
+
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.category.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Container(
+                                width: width * 0.10,
+                                padding: const EdgeInsets.all(8),
+                                color: (controller.categoryIndex.value == index)
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 220, 220, 220),
+                                child: Center(
+                                    child: Text(controller.category[index])),
+                              ),
+                            ),
+                          );
+                        }),
+                  );
+                },
+              ),
+            ),
             sizeH30,
-            const ScrollingCatogoryButtons(),
+            // const ScrollingCatogoryButtons(),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -178,9 +214,7 @@ class _ScreeenHomePageState extends State<ScreeenHomePage> {
               borderRadius: BorderRadius.circular(8),
               child: IconButton(
                 onPressed: () {
-                  setState(() {
-                    cartBadgeCount += 1;
-                  });
+                  
                 },
                 icon: const Icon(
                   cart,

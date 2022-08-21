@@ -11,6 +11,8 @@ import 'package:pro_plus_logic_machine_test/view/screen_signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiController extends GetxController {
+  List<String> category=['Living Room','Kitchen','Home Office','Bed Room','Cloths','Shoes'];
+RxInt categoryIndex = 0.obs;
   RxString? userEmail = "".obs;
   RxString? userPassword = "".obs;
   List<GetProductModel>? product;
@@ -77,7 +79,12 @@ class ApiController extends GetxController {
       update();
     }
   }
+categorycolormanager(index){
+  categoryIndex = index;
+  update();
 
+
+}
   Future<void> validateuser() async {
     final sharedPref = await SharedPreferences.getInstance();
 
@@ -87,6 +94,8 @@ class ApiController extends GetxController {
     userPassword!.value = password.toString();
     update();
   }
+
+
 
   @override
   void onInit() {
