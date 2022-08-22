@@ -22,16 +22,16 @@ class GetProductModel {
 
     int? id;
     String? title;
-    int? price;
+    double price;
     String? description;
-    Category? category;
-    List<String>? images;
+    Category category;
+    List<String> images;
     int? categoryId;
 
     factory GetProductModel.fromJson(Map<String, dynamic> json) => GetProductModel(
         id: json["id"],
         title: json["title"],
-        price: json["price"],
+        price: json["price"].toDouble(),
         description: json["description"],
         category: Category.fromJson(json["category"]),
         images: List<String>.from(json["images"].map((x) => x)),
@@ -43,8 +43,8 @@ class GetProductModel {
         "title": title,
         "price": price,
         "description": description,
-        "category": category!.toJson(),
-        "images": List<dynamic>.from(images!.map((x) => x)),
+        "category": category.toJson(),
+        "images": List<dynamic>.from(images.map((x) => x)),
         "categoryId": categoryId == null ? null : categoryId,
     };
 }
@@ -57,10 +57,10 @@ class Category {
         required this.keyLoremSpace,
     });
 
-    int id;
+    int? id;
     String? name;
     String? image;
-    String ?keyLoremSpace;
+    String? keyLoremSpace;
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],

@@ -11,16 +11,26 @@ import 'package:pro_plus_logic_machine_test/view/screen_signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiController extends GetxController {
-  List<String> category=['Living Room','Kitchen','Home Office','Bed Room','Cloths','Shoes'];
-RxInt categoryIndex = 0.obs;
+  List<String> category = [
+    'Living Room',
+    'Kitchen',
+    'Home Office',
+    'Bed Room',
+    'Cloths',
+    'Shoes'
+  ];
+  RxInt categoryIndex = 0.obs;
   RxString? userEmail = "".obs;
   RxString? userPassword = "".obs;
   List<GetProductModel>? product;
+
   userLogin(String name, String password) async {
     if (name == "mor_2314" && password == "83r5^_") {
       final sharedPref = await SharedPreferences.getInstance();
+
       await sharedPref.setString("email", name);
-      await sharedPref.setString("password", password);
+      // await sharedPref.setString("password", password);
+
       Map<String, dynamic> loginData = {
         "username": "mor_2314",
         "password": "83r5^_"
@@ -29,17 +39,20 @@ RxInt categoryIndex = 0.obs;
       final response = await ApiServiceEndPoint().login(loginData);
       try {
         if (response!.statusCode == 200 || response.statusCode == 201) {
-          loginModelFromJson(response.data);
-          Get.off(const ScreeenHomePage());
+          final login = loginModelFromJson(response.data);
 
-          Get.snackbar(duration: const Duration(seconds: 3),
-            'welcome cheif',
-            'to check daily collection',
-            colorText: Colors.green,
-            snackPosition: SnackPosition.BOTTOM,
-            padding: const EdgeInsets.all(20),
-          );
-          update();
+          if (login.token != null) {
+            Get.off(const ScreeenHomePage());
+            Get.snackbar(
+              duration: const Duration(seconds: 3),
+              'welcome cheif',
+              'to check daily collection',
+              colorText: Colors.green,
+              snackPosition: SnackPosition.BOTTOM,
+              padding: const EdgeInsets.all(20),
+            );
+            update();
+          }
         } else {
           Get.snackbar(
             duration: const Duration(seconds: 3),
@@ -75,36 +88,53 @@ RxInt categoryIndex = 0.obs;
         update();
       }
     } catch (e) {
-      log(e.toString());
+      log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
+
       update();
     }
   }
-categorycolormanager(index){
-  categoryIndex = index;
-  update();
 
-
-}
-  Future<void> validateuser() async {
-    final sharedPref = await SharedPreferences.getInstance();
-
-    var email = sharedPref.getString("email");
-    var password = sharedPref.getString("password");
-    userEmail!.value = email.toString();
-    userPassword!.value = password.toString();
+  categorycolormanager(index) {
+    categoryIndex = index;
     update();
   }
 
+  Future<void> validateuser() async {
+    log("villichu");
+    final sharedPref = await SharedPreferences.getInstance();
 
+    var email = sharedPref.getString("email");
+    // var password = sharedPref.getString("password");
+    if (email != null) {
+      print("data undu");
+      Get.to(() => const ScreeenHomePage());
+    } else {
+      Get.to(ScreenSignUp());
+    }
+    // userEmail!.value = email.toString();
+    // userPassword!.value = password.toString();
+    update();
+  }
+
+  clearUser() async {
+    final sharedpref = await SharedPreferences.getInstance();
+    sharedpref.clear();
+    Get.offAll(ScreenSignUp());
+    Get.snackbar(
+      duration: const Duration(seconds: 3),
+      'Logout Successfull',
+      'User has logged out Successfully',
+      colorText: Colors.green,
+      snackPosition: SnackPosition.BOTTOM,
+      padding: const EdgeInsets.all(20),
+    );
+    update();
+  }
 
   @override
   void onInit() {
-    validateuser()
-        .whenComplete(() => Timer(Duration(microseconds: 100), () async {
-              userEmail!.value == null && userPassword!.value == null
-                  ? Get.to(() => ScreenSignUp())
-                  : Get.to(() => const ScreeenHomePage());
-            }));
+    // validateuser();
+
     getData();
     super.onInit();
     update();

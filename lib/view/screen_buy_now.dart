@@ -1,10 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:pro_plus_logic_machine_test/constants/colors.dart';
 import 'package:pro_plus_logic_machine_test/constants/sized_box.dart';
 import 'package:pro_plus_logic_machine_test/controller/api_controller.dart';
-import 'package:pro_plus_logic_machine_test/model/notification_service.dart';
 
 // ignore: must_be_immutable
 class ScreenBuyNow extends StatelessWidget {
@@ -62,7 +62,7 @@ class ScreenBuyNow extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
                             image: NetworkImage(
-                                controller.product![newindex + 1].images![0]),
+                                controller.product![newindex].images[0]),
                             fit: BoxFit.fill),
                       ),
                       height: height * 0.5,
@@ -134,14 +134,14 @@ class ScreenBuyNow extends StatelessWidget {
                 child: Text(
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  controller.product![newindex + 1].title.toString(),
+                  controller.product![newindex].title.toString(),
                   style: const TextStyle(
                       fontSize: 35, fontWeight: FontWeight.w500, color: black),
                 ),
               ),
               Flexible(
                 child: Text(
-                  controller.product![newindex + 1].description.toString(),
+                  controller.product![newindex].description.toString(),
                   style: const TextStyle(
                       height: 1.5,
                       fontSize: 18,
@@ -152,7 +152,7 @@ class ScreenBuyNow extends StatelessWidget {
               sizeH30,
               Row(
                 children: [
-                   Text(
+                  Text(
                     "\$ ${controller.product![newindex + 1].price.toString()}",
                     style: const TextStyle(
                         fontSize: 35,
@@ -187,11 +187,17 @@ class ScreenBuyNow extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(0)),
                           primary: yellow),
-                      onPressed: () {
-                        notification(
-                            controller.product![newindex + 1].title.toString(),
-                            controller.product![newindex + 1].price.toString(),
-                            "url");
+                      onPressed: ()async {
+                        await AwesomeNotifications().createNotification(content: NotificationContent(id: newindex,
+                         channelKey: "basic_channel",
+                         title:   controller.product![newindex].title.toString(),
+                         body: controller.product![newindex].price.toString(),
+                         bigPicture:  controller.product![newindex].images[0],
+                         summary: controller.product![newindex].description.toString() ,
+                         notificationLayout: NotificationLayout.BigPicture
+
+                         ));
+                      
                       },
                       child: const Text(
                         "Buy Now",
