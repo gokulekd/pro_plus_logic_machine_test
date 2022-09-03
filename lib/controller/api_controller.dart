@@ -29,7 +29,7 @@ class ApiController extends GetxController {
       final sharedPref = await SharedPreferences.getInstance();
 
       await sharedPref.setString("email", name);
-      // await sharedPref.setString("password", password);
+     
 
       Map<String, dynamic> loginData = {
         "username": "mor_2314",
@@ -81,7 +81,7 @@ class ApiController extends GetxController {
   getData() async {
     try {
       final response = await ApiServiceEndPoint().getProduct();
-      log(response.toString());
+     
       if (response!.statusCode == 200 || response.statusCode == 201) {
         final datas = getProductModelFromJson(response.data);
         product = datas.obs;
@@ -104,15 +104,14 @@ class ApiController extends GetxController {
     final sharedPref = await SharedPreferences.getInstance();
 
     var email = sharedPref.getString("email");
-    // var password = sharedPref.getString("password");
+
     if (email != null) {
       print("data undu");
       Get.to(() => const ScreeenHomePage());
     } else {
       Get.to(ScreenSignUp());
     }
-    // userEmail!.value = email.toString();
-    // userPassword!.value = password.toString();
+
     update();
   }
 
